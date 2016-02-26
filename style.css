@@ -1,0 +1,48 @@
+body
+{
+	overflow: none;
+	padding:50px;
+}
+
+#gamewindow
+{
+	width: 100%;
+	height: 100%;
+}
+
+#guessarea
+{
+	width: 66%;
+	height: 70%;
+	float: left;
+}
+
+#hangmanarea
+{
+	width: 33%;
+	height: 70%;
+	float: right;
+}
+
+#buttonarea
+{
+	width: 100%;
+	height: 30%;
+	clear: both; /* clear both, so this box doesn't float on any side of the screen */
+}
+
+.buttonrendertable
+{
+	width: 100%;
+	height: 100%;
+}
+
+.buttonrenderrow { }
+
+.buttonrendercell { }
+
+.gamebutton
+{
+	width: 100%;
+	height: 100%;
+}
