@@ -23,11 +23,15 @@ function createButtonArray()
 	for(var i=0; i < ALPHABET_LENGTH; i++)
 	{
 		// Create the button-element and it's label in different steps
+		var currentChar = String.fromCharCode(ALPHABET_STARTVALUE_ASCII + i);
 		var currentButton = document.createElement("BUTTON");
-		var currentButtonText = document.createTextNode(String.fromCharCode(ALPHABET_STARTVALUE_ASCII + i));
+		var currentButtonText = document.createTextNode(currentChar);
 		
 		// Set the button's class name, so we can style the buttons in the css
 		currentButton.className = "gamebutton";
+		currentButton.value = currentChar;
+		// Set the button's onclick method, so the user can interact with the game
+		currentButton.addEventListener("click", buttonPressedHandler);
 		
 		// Assign label to button
 		currentButton.appendChild(currentButtonText);
@@ -95,6 +99,13 @@ function renderButtonsFromArray(buttonArray, divToRender)
 	}
 	else
 		alert("The div, given for rendering the buttons in, doesn't exist in the document!\nDiv given: "+divToRender);
+}
+
+function buttonPressedHandler(mouseClickEvent)
+{
+	var clickedButton = mouseClickEvent.target;
+	
+	clickedButton.disabled = true;
 }
 
 if(GAMEWINDOW != null)
