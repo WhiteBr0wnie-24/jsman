@@ -71,7 +71,7 @@ function renderButtonsFromArray(buttonArray, divToRender)
 	if(buttonArray.length == 0)
 		alert("Cant't render an empty array!")
 	
-		if(realDiv != null)
+	if(realDiv != null)
 	{
 		// If the given div is present in the document, check if
 		// the number of buttons given can be divided nicely by
