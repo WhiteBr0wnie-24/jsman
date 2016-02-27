@@ -1,4 +1,32 @@
-var DEBUGMODE = 0;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: main.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: main.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var DEBUGMODE = 0;
 
 // The div ids to use for the different sections the game needs.
 // you can change these if you use your own html/css
@@ -36,7 +64,7 @@ function createButtonArray()
 {
 	var createdButtons = [];
 	
-	for(var i=0; i < ALPHABET_LENGTH; i++)
+	for(var i=0; i &lt; ALPHABET_LENGTH; i++)
 	{
 		// Create the button-element and it's label in different steps
 		var currentChar = String.fromCharCode(ALPHABET_STARTVALUE_ASCII + i);
@@ -63,8 +91,8 @@ function createButtonArray()
 * HTML-Document and renders it in the user's webbrowser
 * inside the given div, with the globally set BUTTONROWS variable
 *
-* @param {array} buttonArray The Array that contains the buttons to be rendered
-* @param {string} divToRender The buttons will be rendered into a div with this name
+* @param buttonArray The Array that contains the buttons to be rendered
+* @param divToRender The buttons will be rendered into a div with this name
 *
 **/
 function renderButtonsFromArray(buttonArray, divToRender)
@@ -87,14 +115,14 @@ function renderButtonsFromArray(buttonArray, divToRender)
 			var buttonRowPointer = 0;
 			var buttonsPerRow = (buttonArray.length)/BUTTONROWS;
 			
-			for(var i=0; i < BUTTONROWS; i++)
+			for(var i=0; i &lt; BUTTONROWS; i++)
 			{
 				var buttonRow = document.createElement("tr");
 				buttonRow.className = "buttonrenderrow";
 				
 				// Iterate through the number of buttons per row in each row
 				// and give each button it's own cell in the table
-				for(var u=0; u < buttonsPerRow; u++)
+				for(var u=0; u &lt; buttonsPerRow; u++)
 				{
 					var buttonCell = document.createElement("td");
 					buttonCell.className = "buttonrendercell";
@@ -122,8 +150,8 @@ function renderButtonsFromArray(buttonArray, divToRender)
 * Searches character in word and returns the positions
 * of the occurences in the string.
 *
-* @param {char} character the char to look after
-* @param {string} word the word to search in
+* @param character the char to look after
+* @param the word to search in
 *
 * @returns a numeric value, that tells us where the characters were found in word
 *
@@ -132,7 +160,7 @@ function findCharacterInWord(character, word)
 {
 	var charPositions = [];
 	
-	for(var i=0; i < word.length; i++)
+	for(var i=0; i &lt; word.length; i++)
 	{
 		// alternative: indexOf-Method
 		// http://www.w3schools.com/jsref/jsref_indexof.asp
@@ -148,7 +176,7 @@ function findCharacterInWord(character, word)
 *
 * Returns a random item of the given array.
 *
-* @param {array} wordArray The array to return the random value from
+* @param The array to return the random value from
 *
 **/
 function getWord(wordArray)
@@ -177,8 +205,8 @@ function getWord(wordArray)
 * a correct char of the given word yet and displays the character
 * on the correct position if the user has already guessed a correct char.
 *
-* @param {string} word the word to display
-* @param {string} divToRender the id of the div to render the guess in
+* @param the word to display
+* @param the div to render the guess in
 *
 **/
 function renderNewWord(word, divToRender)
@@ -195,7 +223,7 @@ function renderNewWord(word, divToRender)
 		wordTable.className = "guessrendertable";
 		wordTableRow.className = "guessrenderrow";
 		
-		for(var i=0; i < CURRENTWORD.length; i++)
+		for(var i=0; i &lt; CURRENTWORD.length; i++)
 		{
 			var currentCharCell = document.createElement("td");
 			
@@ -239,7 +267,7 @@ function checkGameState()
 	}
 	else
 	{
-		for(var i=0; i < CURRENTGUESS.length; i++)
+		for(var i=0; i &lt; CURRENTGUESS.length; i++)
 		{
 			if(CURRENTGUESS[i].innerHTML == "_")
 				return;
@@ -273,7 +301,7 @@ function buttonPressedHandler(mouseClickEvent)
 	
 		if(characterPositions.length > 0)
 		{
-			for(var i=0; i < characterPositions.length; i++)
+			for(var i=0; i &lt; characterPositions.length; i++)
 			{
 				CURRENTGUESS[characterPositions[i]].innerHTML = clickedChar;
 			}
@@ -281,7 +309,7 @@ function buttonPressedHandler(mouseClickEvent)
 		else
 		{
 			HANGMANSTATE++;
-			HANGMANWINDOW.innerHTML = '<img src="' + HANGMANIMAGES[HANGMANSTATE] + '">';
+			HANGMANWINDOW.innerHTML = '&lt;img src="' + HANGMANIMAGES[HANGMANSTATE] + '">';
 		}
 
 		clickedButton.disabled = true;
@@ -295,15 +323,15 @@ function buttonPressedHandler(mouseClickEvent)
 * Looks for a button with the given value in the global
 * BUTTONS array.
 *
-* @param {string} value the value to look for
+* @param the value to look for
 * 
 * @returns the button with the value or null if the button was not found or if it is disabled.
 **/
 function getButtonByValue(value)
 {
-	for(var i=0; i < BUTTONS.length; i++)
+	for(var i=0; i &lt; BUTTONS.length; i++)
 	{
-		if(BUTTONS[i].value == value && !(BUTTONS[i].diasbled))
+		if(BUTTONS[i].value == value &amp;&amp; !(BUTTONS[i].diasbled))
 			return BUTTONS[i];
 	}
 	
@@ -358,10 +386,32 @@ function startGame()
 		document.addEventListener("keydown", keyboardInputHandler);
 		
 		// Display the first image, so there is always one visible
-		HANGMANWINDOW.innerHTML = '<img src="' + HANGMANIMAGES[HANGMANSTATE] + '">';
+		HANGMANWINDOW.innerHTML = '&lt;img src="' + HANGMANIMAGES[HANGMANSTATE] + '">';
 	}
 	else
 	{
 		alert("Could not initialize the gamewindow div!");
 	}
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#buttonPressedHandler">buttonPressedHandler</a></li><li><a href="global.html#checkGameState">checkGameState</a></li><li><a href="global.html#createButtonArray">createButtonArray</a></li><li><a href="global.html#findCharacterInWord">findCharacterInWord</a></li><li><a href="global.html#getButtonByValue">getButtonByValue</a></li><li><a href="global.html#getWord">getWord</a></li><li><a href="global.html#keyboardInputHandler">keyboardInputHandler</a></li><li><a href="global.html#renderButtonsFromArray">renderButtonsFromArray</a></li><li><a href="global.html#renderNewWord">renderNewWord</a></li><li><a href="global.html#restartGame">restartGame</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Sat Feb 27 2016 12:27:49 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
