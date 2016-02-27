@@ -1,14 +1,21 @@
+var DEBUGMODE = 0;
+
 var GAMEWINDOWDIV = "gamewindow";
 var BUTTONAREADIV = "buttonarea";
 var GUESSAREADIV = "guessarea";
 var HANGMANAREADIV = "hangmanarea";
 
 var GAMEWINDOW = document.getElementById(GAMEWINDOWDIV); // The div to display the game in
+
 var ALPHABET_LENGTH = 26; // Length of the alphabet to use for the game
 var ALPHABET_STARTVALUE_ASCII = 65; // ASCII code for uppercase A
-var BUTTONS = []; // The array that will hold the buttons with each character displayed on them
 
+var BUTTONS = []; // The array that will hold the buttons with each character displayed on them
 var BUTTONROWS = 2;
+
+var WORDS = ["hallowelt", "baum", "laptop", "ferNseHER", "simpsons"];
+var CURRENTWORD = "";
+var CURRENTGUESS = []; // Array of table cells which hold a single character each, display purposes only
 
 /**
 *
@@ -101,6 +108,63 @@ function renderButtonsFromArray(buttonArray, divToRender)
 		alert("The div, given for rendering the buttons in, doesn't exist in the document!\nDiv given: "+divToRender);
 }
 
+// TODO: comment
+// Returns the current occurencies of a char in a word
+function findCharacterInWord(character, word)
+{
+	var charPositions = [];
+}
+
+function getWord(wordArray)
+{
+	if(wordArray.length > 0)
+	{
+	// calculate a random number and multiplay it by the
+	// length of available words. note that random does never
+	// return a value larger than 0.99, so no +1 or -1 is needed,
+	// because the index can never reach more than the length of
+	// the words array due to the floor, and 0 is a perfectly fine
+	// value when dealing with arrays.
+	// http://www.w3schools.com/jsref/jsref_random.asp
+	var index = Math.floor((Math.random() * wordArray.length));
+	
+	return wordArray[index];
+	}
+	else
+		alert("Could not select a word from the array, because the array given is empty!")
+}
+
+function renderNewWord(word, divToRender)
+{
+	var realDiv = document.getElementById(divToRender);
+	
+	if(realDiv != null)
+	{
+		CURRENTWORD = word.toUpperCase();
+		
+		var wordTable = document.createElement("table");
+		var wordTableRow = document.createElement("tr");
+		
+		for(var i=0; i < CURRENTWORD.length; i++)
+		{
+			var currentCharCell = document.createElement("td");
+			
+			currentCharCell.innerHTML = "_";
+			CURRENTGUESS.push(currentCharCell);
+			
+			wordTableRow.appendChild(currentCharCell);
+		}
+		
+		wordTable.appendChild(wordTableRow);
+		realDiv.appendChild(wordTable);
+		
+		if(DEBUGMODE == 1)
+			console.log(CURRENTWORD);
+	}
+	else
+		alert("The div, given for rendering the word in, doesn't exist in the document!\nDiv given: "+divToRender);
+}
+
 function buttonPressedHandler(mouseClickEvent)
 {
 	var clickedButton = mouseClickEvent.target;
@@ -111,7 +175,9 @@ function buttonPressedHandler(mouseClickEvent)
 if(GAMEWINDOW != null)
 {
 	BUTTONS = createButtonArray();
+	
 	renderButtonsFromArray(BUTTONS, BUTTONAREADIV);
+	renderNewWord(getWord(WORDS), GUESSAREADIV);
 }
 else
 {
