@@ -1,24 +1,26 @@
 var DEBUGMODE = 0;
 
+// The div ids to use for the different sections the game needs.
+// you can change these if you use your own html/css
 var GAMEWINDOWDIV = "gamewindow";
 var BUTTONAREADIV = "buttonarea";
 var GUESSAREADIV = "guessarea";
 var HANGMANAREADIV = "hangmanarea";
 
-var HANGMANWINDOW = document.getElementById(HANGMANAREADIV);
+var HANGMANWINDOW = document.getElementById(HANGMANAREADIV); // The div to display the hangman imgs in
 var GAMEWINDOW = document.getElementById(GAMEWINDOWDIV); // The div to display the game in
 
 var ALPHABET_LENGTH = 26; // Length of the alphabet to use for the game
 var ALPHABET_STARTVALUE_ASCII = 65; // ASCII code for uppercase A
 
 var BUTTONS = []; // The array that will hold the buttons with each character displayed on them
-var BUTTONROWS = 2;
+var BUTTONROWS = 2; // Display the guess buttons in 2 seperate rows
 
 var WORDS = ["hallo welt", "baum", "laptop", "ferNseHER", "simpsons", "eiche", "fisch", "golfball", "jagdhuette", "smartphone", "ponyhof", "reitstiefel"];
-var CURRENTWORD = "";
+var CURRENTWORD = ""; // The word, the user has to guess in this round of the game
 var CURRENTGUESS = []; // Array of table cells which hold a single character each, display purposes only
 
-var HANGMANSTATE = 0;
+var HANGMANSTATE = 0; // This state describes how many mistakes a user has made.
 var MAXHANGMANSTATE = 6; // this value determines, how many tries a user has, before he loses the game, default = 5
 var HANGMANIMAGES = ["./img/hang_1.gif", "./img/hang_2.gif", "./img/hang_3.gif", "./img/hang_4.gif", "./img/hang_5.gif", "./img/hang_6.gif", "./img/hang_7.gif"];
 
@@ -115,8 +117,17 @@ function renderButtonsFromArray(buttonArray, divToRender)
 		alert("The div, given for rendering the buttons in, doesn't exist in the document!\nDiv given: "+divToRender);
 }
 
-// TODO: comment
-// Returns the current occurencies of a char in a word
+/**
+*
+* Searches character in word and returns the positions
+* of the occurences in the string.
+*
+* @param character the char to look after
+* @param the word to search in
+*
+* @returns a numeric value, that tells us where the characters were found in word
+*
+**/
 function findCharacterInWord(character, word)
 {
 	var charPositions = [];
@@ -133,6 +144,13 @@ function findCharacterInWord(character, word)
 	return charPositions;
 }
 
+/**
+*
+* Returns a random item of the given array.
+*
+* @param The array to return the random value from
+*
+**/
 function getWord(wordArray)
 {
 	if(wordArray.length > 0)
@@ -152,6 +170,17 @@ function getWord(wordArray)
 		alert("Could not select a word from the array, because the array given is empty!")
 }
 
+/**
+*
+* Displays a guess in the guess section of the game window.
+* A guess is displayed as dashes when the player hasn't guessed
+* a correct char of the given word yet and displays the character
+* on the correct position if the user has already guessed a correct char.
+*
+* @param the word to display
+* @param the div to render the guess in
+*
+**/
 function renderNewWord(word, divToRender)
 {
 	var realDiv = document.getElementById(divToRender);
@@ -192,6 +221,11 @@ function renderNewWord(word, divToRender)
 		alert("The div, given for rendering the word in, doesn't exist in the document!\nDiv given: "+divToRender);
 }
 
+/**
+*
+* Checks if the player has won or lost a game.
+*
+**/
 function checkGameState()
 {
 	if(HANGMANSTATE==MAXHANGMANSTATE)
@@ -199,6 +233,8 @@ function checkGameState()
 		if(confirm("You lost!\nThe correct word was: " + CURRENTWORD+"\n\nDo you want to play again?"))
 			restartGame();
 		else
+			// Set the gamestate, because a user might click no on the dialog box
+			// so if he returns to the game, he can't click any more buttons.
 			GAMESTATE = 0;
 	}
 	else
@@ -216,12 +252,20 @@ function checkGameState()
 	}
 }
 
+/**
+*
+* Handles mouse click inputs made by the user.
+* works as the game loop method.
+*
+**/
 function buttonPressedHandler(mouseClickEvent)
 {
 	if(GAMESTATE == 1)
 	{
 		var clickedButton = mouseClickEvent.target;
 		var clickedChar = clickedButton.value;
+		
+		// Check if the character, selected by the user, is in the word he tries to guess
 		var characterPositions = findCharacterInWord(clickedChar, CURRENTWORD);
 	
 		if(DEBUGMODE == 1)
@@ -235,20 +279,33 @@ function buttonPressedHandler(mouseClickEvent)
 			}
 		}
 		else
+		{
 			HANGMANSTATE++;
-	
+			HANGMANWINDOW.innerHTML = '<img src="' + HANGMANIMAGES[HANGMANSTATE] + '">';
+		}
+
 		clickedButton.disabled = true;
-		HANGMANWINDOW.innerHTML = '<img src="' + HANGMANIMAGES[HANGMANSTATE] + '">';
-	
+		
 		checkGameState();
 	}
 }
 
+/**
+*
+* Restarts the game by reloading the page.
+*
+**/
 function restartGame()
 {
 	location.reload(true);
 }
 
+/*
+*
+* Starts a game. This is the "main-method" of this script,
+* so don't forget to call this method from your html!
+*
+**/
 function startGame()
 {
 	if(GAMEWINDOW != null)
@@ -257,6 +314,8 @@ function startGame()
 		
 		renderButtonsFromArray(BUTTONS, BUTTONAREADIV);
 		renderNewWord(getWord(WORDS), GUESSAREADIV);
+		
+		// Display the first image, so there is always one visible
 		HANGMANWINDOW.innerHTML = '<img src="' + HANGMANIMAGES[HANGMANSTATE] + '">';
 	}
 	else
