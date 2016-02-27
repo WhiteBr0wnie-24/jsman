@@ -292,6 +292,46 @@ function buttonPressedHandler(mouseClickEvent)
 
 /**
 *
+* Looks for a button with the given value in the global
+* BUTTONS array.
+*
+* @param the value to look for
+* 
+* @returns the button with the value or null if the button was not found or if it is disabled.
+**/
+function getButtonByValue(value)
+{
+	for(var i=0; i < BUTTONS.length; i++)
+	{
+		if(BUTTONS[i].value == value && !(BUTTONS[i].diasbled))
+			return BUTTONS[i];
+	}
+	
+	return null;
+}
+
+/**
+*
+* This method handles keyboard input. it 'clicks' the corresponding
+* button (displayed on the screen) for the user.
+*
+**/
+function keyboardInputHandler(keyPressEvent)
+{
+	// Get the char of the pressed key on the keyboard and
+	// make it uppercase, so there are no misunderstandings
+	// when looking for the corresponding button later (a or A???)
+	var pressedKeyChar = (String.fromCharCode(keyPressEvent.which)).toUpperCase();
+	var buttonOnScreen = getButtonByValue(pressedKeyChar);
+	
+	// If a button with this char was found (which is not disabled)
+	// fire the button clicked event
+	if(buttonOnScreen != null)
+		buttonOnScreen.click();
+}
+
+/**
+*
 * Restarts the game by reloading the page.
 *
 **/
@@ -314,6 +354,8 @@ function startGame()
 		
 		renderButtonsFromArray(BUTTONS, BUTTONAREADIV);
 		renderNewWord(getWord(WORDS), GUESSAREADIV);
+		
+		document.addEventListener("keydown", keyboardInputHandler);
 		
 		// Display the first image, so there is always one visible
 		HANGMANWINDOW.innerHTML = '<img src="' + HANGMANIMAGES[HANGMANSTATE] + '">';
