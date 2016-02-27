@@ -13,7 +13,7 @@ var ALPHABET_STARTVALUE_ASCII = 65; // ASCII code for uppercase A
 var BUTTONS = []; // The array that will hold the buttons with each character displayed on them
 var BUTTONROWS = 2;
 
-var WORDS = ["hallowelt", "baum", "laptop", "ferNseHER", "simpsons"];
+var WORDS = ["hallo welt", "baum", "laptop", "ferNseHER", "simpsons"];
 var CURRENTWORD = "";
 var CURRENTGUESS = []; // Array of table cells which hold a single character each, display purposes only
 
@@ -167,7 +167,12 @@ function renderNewWord(word, divToRender)
 			var currentCharCell = document.createElement("td");
 			
 			currentCharCell.className = "guessrendercell";
-			currentCharCell.innerHTML = "_";
+			
+			if(CURRENTWORD[i]!=' ')
+				currentCharCell.innerHTML = "_";
+			else
+				currentCharCell.innerHTML = " ";
+			
 			CURRENTGUESS.push(currentCharCell);
 			
 			wordTableRow.appendChild(currentCharCell);
