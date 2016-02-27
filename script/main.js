@@ -14,12 +14,12 @@ var ALPHABET_STARTVALUE_ASCII = 65; // ASCII code for uppercase A
 var BUTTONS = []; // The array that will hold the buttons with each character displayed on them
 var BUTTONROWS = 2;
 
-var WORDS = ["hallo welt", "baum", "laptop", "ferNseHER", "simpsons"];
+var WORDS = ["hallo welt", "baum", "laptop", "ferNseHER", "simpsons", "eiche", "fisch", "golfball", "jagdhuette", "smartphone", "ponyhof", "reitstiefel"];
 var CURRENTWORD = "";
 var CURRENTGUESS = []; // Array of table cells which hold a single character each, display purposes only
 
 var HANGMANSTATE = 0;
-var MAXHANGMANSTATE = 7; // this value determines, how many tries a user has, before he loses the game, default = 5
+var MAXHANGMANSTATE = 6; // this value determines, how many tries a user has, before he loses the game, default = 5
 var HANGMANIMAGES = ["./img/hang_1.gif", "./img/hang_2.gif", "./img/hang_3.gif", "./img/hang_4.gif", "./img/hang_5.gif", "./img/hang_6.gif", "./img/hang_7.gif"];
 
 var GAMESTATE = 1; // 0 = lost, 1 = running, 2 = won, 3 = ended
@@ -196,7 +196,7 @@ function checkGameState()
 {
 	if(HANGMANSTATE==MAXHANGMANSTATE)
 	{
-		alert("You lost!");
+		alert("You lost!\nThe correct word was: " + CURRENTWORD);
 		GAMESTATE = 0;
 	}
 	else
