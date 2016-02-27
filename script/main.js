@@ -5,6 +5,7 @@ var BUTTONAREADIV = "buttonarea";
 var GUESSAREADIV = "guessarea";
 var HANGMANAREADIV = "hangmanarea";
 
+var HANGMANWINDOW = document.getElementById(HANGMANAREADIV);
 var GAMEWINDOW = document.getElementById(GAMEWINDOWDIV); // The div to display the game in
 
 var ALPHABET_LENGTH = 26; // Length of the alphabet to use for the game
@@ -18,6 +19,9 @@ var CURRENTWORD = "";
 var CURRENTGUESS = []; // Array of table cells which hold a single character each, display purposes only
 
 var HANGMANSTATE = 0;
+var MAXHANGMANSTATE = 7; // this value determines, how many tries a user has, before he loses the game, default = 5
+var HANGMANIMAGES = ["./img/hang_1.gif", "./img/hang_2.gif", "./img/hang_3.gif", "./img/hang_4.gif", "./img/hang_5.gif", "./img/hang_6.gif", "./img/hang_7.gif"];
+
 var GAMESTATE = 1; // 0 = lost, 1 = running, 2 = won, 3 = ended
 
 /**
@@ -190,7 +194,7 @@ function renderNewWord(word, divToRender)
 
 function checkGameState()
 {
-	if(HANGMANSTATE>5)
+	if(HANGMANSTATE==MAXHANGMANSTATE)
 	{
 		alert("You lost!");
 		GAMESTATE = 0;
@@ -230,6 +234,7 @@ function buttonPressedHandler(mouseClickEvent)
 			HANGMANSTATE++;
 	
 		clickedButton.disabled = true;
+		HANGMANWINDOW.innerHTML = '<img src="' + HANGMANIMAGES[HANGMANSTATE] + '">';
 	
 		checkGameState();
 	}
@@ -241,6 +246,7 @@ if(GAMEWINDOW != null)
 	
 	renderButtonsFromArray(BUTTONS, BUTTONAREADIV);
 	renderNewWord(getWord(WORDS), GUESSAREADIV);
+	HANGMANWINDOW.innerHTML = '<img src="' + HANGMANIMAGES[HANGMANSTATE] + '">';
 }
 else
 {
