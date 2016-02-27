@@ -196,8 +196,10 @@ function checkGameState()
 {
 	if(HANGMANSTATE==MAXHANGMANSTATE)
 	{
-		alert("You lost!\nThe correct word was: " + CURRENTWORD);
-		GAMESTATE = 0;
+		if(confirm("You lost!\nThe correct word was: " + CURRENTWORD+"\n&nbsp;\nDo you want to play again?"))
+			startGame();
+		else
+			GAMESTATE = 0;
 	}
 	else
 	{
@@ -207,8 +209,10 @@ function checkGameState()
 				return;
 		}
 		
-		alert("You won!");
-		GAMESTATE = 2;
+		if(confirm("You won!\nDo you want to play again?"))
+			startGame();
+		else
+			GAMESTATE = 2;
 	}
 }
 
@@ -240,15 +244,27 @@ function buttonPressedHandler(mouseClickEvent)
 	}
 }
 
-if(GAMEWINDOW != null)
+function resetGameSettings()
 {
-	BUTTONS = createButtonArray();
-	
-	renderButtonsFromArray(BUTTONS, BUTTONAREADIV);
-	renderNewWord(getWord(WORDS), GUESSAREADIV);
-	HANGMANWINDOW.innerHTML = '<img src="' + HANGMANIMAGES[HANGMANSTATE] + '">';
+	GAMESTATE = 1;
+	HANGMANSTATE = 0;
+	CURRENTGUESS = [];
 }
-else
+
+function startGame()
 {
-	alert("Could not initialize the gamewindow div!");
+	resetGameSettings();
+	
+	if(GAMEWINDOW != null)
+	{
+		BUTTONS = createButtonArray();
+		
+		renderButtonsFromArray(BUTTONS, BUTTONAREADIV);
+		renderNewWord(getWord(WORDS), GUESSAREADIV);
+		HANGMANWINDOW.innerHTML = '<img src="' + HANGMANIMAGES[HANGMANSTATE] + '">';
+	}
+	else
+	{
+		alert("Could not initialize the gamewindow div!");
+	}
 }
