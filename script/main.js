@@ -340,7 +340,7 @@ function restartGame()
 	location.reload(true);
 }
 
-/*
+/**
 *
 * Starts a game. This is the "main-method" of this script,
 * so don't forget to call this method from your html!
