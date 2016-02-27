@@ -196,8 +196,8 @@ function checkGameState()
 {
 	if(HANGMANSTATE==MAXHANGMANSTATE)
 	{
-		if(confirm("You lost!\nThe correct word was: " + CURRENTWORD+"\n&nbsp;\nDo you want to play again?"))
-			startGame();
+		if(confirm("You lost!\nThe correct word was: " + CURRENTWORD+"\n\nDo you want to play again?"))
+			restartGame();
 		else
 			GAMESTATE = 0;
 	}
@@ -210,7 +210,7 @@ function checkGameState()
 		}
 		
 		if(confirm("You won!\nDo you want to play again?"))
-			startGame();
+			restartGame();
 		else
 			GAMESTATE = 2;
 	}
@@ -244,17 +244,13 @@ function buttonPressedHandler(mouseClickEvent)
 	}
 }
 
-function resetGameSettings()
+function restartGame()
 {
-	GAMESTATE = 1;
-	HANGMANSTATE = 0;
-	CURRENTGUESS = [];
+	location.reload(true);
 }
 
 function startGame()
 {
-	resetGameSettings();
-	
 	if(GAMEWINDOW != null)
 	{
 		BUTTONS = createButtonArray();
