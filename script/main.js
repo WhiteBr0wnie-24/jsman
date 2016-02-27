@@ -159,10 +159,14 @@ function renderNewWord(word, divToRender)
 		var wordTable = document.createElement("table");
 		var wordTableRow = document.createElement("tr");
 		
+		wordTable.className = "guessrendertable";
+		wordTableRow.className = "guessrenderrow";
+		
 		for(var i=0; i < CURRENTWORD.length; i++)
 		{
 			var currentCharCell = document.createElement("td");
 			
+			currentCharCell.className = "guessrendercell";
 			currentCharCell.innerHTML = "_";
 			CURRENTGUESS.push(currentCharCell);
 			

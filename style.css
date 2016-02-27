@@ -31,15 +31,27 @@ body
 	clear: both; /* clear both, so this box doesn't float on any side of the screen */
 }
 
+.guessrendertable
+{
+	height:100%;
+	margin: 0 auto;
+}
+
+.guessrenderrow  {  }
+
+.guessrendercell
+{
+	font-size:50px;
+	padding:5px;
+}
+
 .buttonrendertable
 {
 	width: 100%;
 	height: 100%;
 }
 
-.buttonrenderrow { }
-
-.buttonrendercell { }
+.buttonrenderrow, .buttonrendercell { }
 
 .gamebutton
 {
