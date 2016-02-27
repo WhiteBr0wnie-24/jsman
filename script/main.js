@@ -17,6 +17,9 @@ var WORDS = ["hallowelt", "baum", "laptop", "ferNseHER", "simpsons"];
 var CURRENTWORD = "";
 var CURRENTGUESS = []; // Array of table cells which hold a single character each, display purposes only
 
+var HANGMANSTATE = 0;
+var GAMESTATE = 1; // 0 = lost, 1 = running, 2 = won, 3 = ended
+
 /**
 *
 * Creates a new Array with the buttons containing the defined alphabet
@@ -68,7 +71,7 @@ function renderButtonsFromArray(buttonArray, divToRender)
 	if(buttonArray.length == 0)
 		alert("Cant't render an empty array!")
 	
-	if(realDiv != null)
+		if(realDiv != null)
 	{
 		// If the given div is present in the document, check if
 		// the number of buttons given can be divided nicely by
@@ -113,22 +116,33 @@ function renderButtonsFromArray(buttonArray, divToRender)
 function findCharacterInWord(character, word)
 {
 	var charPositions = [];
+	
+	for(var i=0; i < word.length; i++)
+	{
+		// alternative: indexOf-Method
+		// http://www.w3schools.com/jsref/jsref_indexof.asp
+		// But this method is easier, might be slower:
+		if(word[i] == character)
+			charPositions.push(i);
+	}
+	
+	return charPositions;
 }
 
 function getWord(wordArray)
 {
 	if(wordArray.length > 0)
 	{
-	// calculate a random number and multiplay it by the
-	// length of available words. note that random does never
-	// return a value larger than 0.99, so no +1 or -1 is needed,
-	// because the index can never reach more than the length of
-	// the words array due to the floor, and 0 is a perfectly fine
-	// value when dealing with arrays.
-	// http://www.w3schools.com/jsref/jsref_random.asp
-	var index = Math.floor((Math.random() * wordArray.length));
+		// calculate a random number and multiplay it by the
+		// length of available words. note that random does never
+		// return a value larger than 0.99, so no +1 or -1 is needed,
+		// because the index can never reach more than the length of
+		// the words array due to the floor, and 0 is a perfectly fine
+		// value when dealing with arrays.
+		// http://www.w3schools.com/jsref/jsref_random.asp
+		var index = Math.floor((Math.random() * wordArray.length));
 	
-	return wordArray[index];
+		return wordArray[index];
 	}
 	else
 		alert("Could not select a word from the array, because the array given is empty!")
@@ -165,11 +179,51 @@ function renderNewWord(word, divToRender)
 		alert("The div, given for rendering the word in, doesn't exist in the document!\nDiv given: "+divToRender);
 }
 
+function checkGameState()
+{
+	if(HANGMANSTATE>5)
+	{
+		alert("You lost!");
+		GAMESTATE = 0;
+	}
+	else
+	{
+		for(var i=0; i < CURRENTGUESS.length; i++)
+		{
+			if(CURRENTGUESS[i].innerHTML == "_")
+				return;
+		}
+		
+		alert("You won!");
+		GAMESTATE = 2;
+	}
+}
+
 function buttonPressedHandler(mouseClickEvent)
 {
-	var clickedButton = mouseClickEvent.target;
+	if(GAMESTATE == 1)
+	{
+		var clickedButton = mouseClickEvent.target;
+		var clickedChar = clickedButton.value;
+		var characterPositions = findCharacterInWord(clickedChar, CURRENTWORD);
 	
-	clickedButton.disabled = true;
+		if(DEBUGMODE == 1)
+			alert(characterPositions);
+	
+		if(characterPositions.length > 0)
+		{
+			for(var i=0; i < characterPositions.length; i++)
+			{
+				CURRENTGUESS[characterPositions[i]].innerHTML = clickedChar;
+			}
+		}
+		else
+			HANGMANSTATE++;
+	
+		clickedButton.disabled = true;
+	
+		checkGameState();
+	}
 }
 
 if(GAMEWINDOW != null)
